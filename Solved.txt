@@ -1,0 +1,529 @@
+Q.1. Using for loop, write and run a Python program for this algorithm.
+Here is an algorithm to print out n! (n factorial) from 0! to 10! :
+1. Set f = 1 
+2. Set n = 0
+3. Repeat the following 10 times: 
+a. Output n, "! = ", f
+b. Add 1 to n 
+c. Multiply f by n
+
+CODE:   
+for n in range(11):
+    f = 1
+    for i in range(1, n+1):
+        f *= i
+    print(n, "! = ", f)
+###################################################################################################################################################################################################################
+Q.2. Modify the program above using a while loop so it prints out all of the factorial values that are 
+less than 2 billion.
+
+f = 1
+n = 0
+while f < 2000000000:
+    print(n, "! = ", f)
+    n += 1
+    f *= n
+###################################################################################################################################################################################################################
+Q.1. Write a program that asks the user how many days are in a particular month, and what day of 
+the week the month begins on (0 for Monday, 1 for Tuesday, etc), and then prints a calendar for 
+that month. For example, here is the output for a 30-day month that begins on day 4 (Thursday):
+S M T W T F S
+ 1 2 3
+4 5 6 7 8 9 10
+11 12 13 14 15 16 17 
+18 19 20 21 22 23 24 
+25 26 27 28 29 30
+
+Solved ::
+
+days_in_month = int(input("How many days are in the month? "))
+start_day = int(input("What day of the week does the month start on (0 for Monday, 1 for Tuesday, etc)? "))
+
+print("S  M  T  W  T  F  S")
+for i in range(start_day):
+    print("   ", end="")
+for i in range(1, days_in_month + 1):
+    if i < 10:
+        print(" ", end="")
+    print(i, end=" ")
+    if (i + start_day) % 7 == 0 or i == days_in_month:
+        print()
+###################################################################################################################################################################################################################
+Q. 2. Define a procedure histogram() that takes a list of integers and prints a histogram to the 
+screen. For example, histogram([4, 9, 7]) should print the following:
+****
+*********
+*******
+
+
+def histogram(lst):
+    for num in lst:
+        print("*" * num)
+
+###################################################################################################################################################################################################################
+Q. 3. Write a version of a palindrome recognizer that also accepts phrase palindromes such as "Go 
+hang a salami I'm a lasagna hog.", "Was it a rat I saw?", "Step on no pets", "Sit on a potato pan, 
+Otis", "Lisa Bonet ate no basil", "Satan, oscillate my metallic sonatas", "I roamed under it as a tired 
+nude Maori", "Rise to vote sir", or the exclamation "Dammit, I'm mad!". Note that punctuation, 
+capitalization, and spacing are usually ignored
+
+import re
+
+def is_palindrome(phrase):
+    # Remove all non-alphanumeric characters using a regular expression
+    phrase = re.sub(r'[^A-Za-z0-9]', '', phrase.lower())
+    # Check if the phrase is equal to its reverse
+    return phrase == phrase[::-1]
+
+# Test the function with some example palindromes
+print(is_palindrome("Go hang a salami I'm a lasagna hog."))
+print(is_palindrome("Was it a rat I saw?"))
+print(is_palindrome("Step on no pets"))
+print(is_palindrome("Sit on a potato pan, Otis"))
+print(is_palindrome("Lisa Bonet ate no basil"))
+print(is_palindrome("Satan, oscillate my metallic sonatas"))
+print(is_palindrome("I roamed under it as a tired nude Maori"))
+print(is_palindrome("Rise to vote sir"))
+print(is_palindrome("Dammit, I'm mad!"))
+
+###################################################################################################################################################################################################################
+Q. 4. A pangram is a sentence that contains all the letters of the English alphabet at least once, for 
+example: The quick brown fox jumps over the lazy dog. Your task here is to write a function to 
+check a sentence to see if it is a pangram or not.
+
+
+import string
+
+def is_pangram(sentence):
+    # Convert sentence to lowercase and remove whitespace
+    sentence = sentence.lower().replace(" ", "")
+    # Remove all non-alphabetic characters
+    sentence = "".join(filter(str.isalpha, sentence))
+    # Check if the set of letters in the sentence contains all 26 letters of the alphabet
+    return set(sentence) >= set(string.ascii_lowercase)
+
+# Test the function with some example pangrams
+print(is_pangram("The quick brown fox jumps over the lazy dog"))
+print(is_pangram("Pack my box with five dozen liquor jugs"))
+print(is_pangram("How vexingly quick daft zebras jump!"))
+print(is_pangram("Sphinx of black quartz, judge my vow"))
+print(is_pangram("The five boxing wizards jump quickly"))
+
+
+###################################################################################################################################################################################################################
+Q. 1. In cryptography, a Caesar cipher is a very simple encryption techniques in which each letter 
+in the plain text is replaced by a letter some fixed number of positions down the alphabet. For 
+example, with a shift of 3, A would be replaced by D, B would become E, and so on. The method is 
+named after Julius Caesar, who used it to communicate with his generals. ROT-13 ("rotate by 13 
+places") is a widely used example of a Caesar cipher where the shift is 13. In Python, the key for 
+ROT-13 may be represented by means of the following dictionary:
+key = {'a':'n', 'b':'o', 'c':'p', 'd':'q', 'e':'r', 'f':'s', 'g':'t', 'h':'u', 'i':'v', 'j':'w', 'k':'x', 'l':'y', 'm':'z', 'n':'a', 'o':'b', 
+'p':'c', 'q':'d', 'r':'e', 's':'f', 't':'g', 'u':'h', 'v':'i', 'w':'j', 'x':'k', 'y':'l', 'z':'m', 'A':'N', 'B':'O', 'C':'P', 'D':'Q', 'E':'R', 
+'F':'S', 'G':'T', 'H':'U', 'I':'V', 'J':'W', 'K':'X', 'L':'Y', 'M':'Z', 'N':'A', 'O':'B', 'P':'C', 'Q':'D', 'R':'E', 'S':'F', 
+'T':'G', 'U':'H', 'V':'I', 'W':'J', 'X':'K', 'Y':'L', 'Z':'M'}
+
+
+def encrypt(message):
+    key = {'a':'n', 'b':'o', 'c':'p', 'd':'q', 'e':'r', 'f':'s', 'g':'t', 'h':'u', 'i':'v', 'j':'w', 'k':'x', 'l':'y', 'm':'z', 
+           'n':'a', 'o':'b', 'p':'c', 'q':'d', 'r':'e', 's':'f', 't':'g', 'u':'h', 'v':'i', 'w':'j', 'x':'k', 'y':'l', 'z':'m', 
+           'A':'N', 'B':'O', 'C':'P', 'D':'Q', 'E':'R', 'F':'S', 'G':'T', 'H':'U', 'I':'V', 'J':'W', 'K':'X', 'L':'Y', 'M':'Z', 
+           'N':'A', 'O':'B', 'P':'C', 'Q':'D', 'R':'E', 'S':'F', 'T':'G', 'U':'H', 'V':'I', 'W':'J', 'X':'K', 'Y':'L', 'Z':'M'}
+    encrypted_message = ""
+    for char in message:
+        if char in key:
+            encrypted_message += key[char]
+        else:
+            encrypted_message += char
+    return encrypted_message
+
+
+This message appears to be encrypted using the ROT-13 cipher! Applying the ROT-13 cipher again to the encrypted message would reveal the original message. 
+
+When we apply the ROT-13 cipher twice, we get back the original message. So, applying the ROT-13 cipher once to the given message, "Pnrfne pvcure? V zhpu cersre Pnrfne fnynq!", we get:
+
+"Caesar cipher? I much prefer Caesar salad!"
+
+So the original message was "Caesar cipher? I much prefer Caesar salad!"
+
+
+###################################################################################################################################################################################################################
+Q.Reverse a list in Python
+
+my_list = [1, 2, 3, 4, 5]
+reversed_list = my_list[::-1]
+print(reversed_list)
+
+Q.Concatenate two lists index-wise.
+list1 = ["a", "b", "c"]
+list2 = [1, 2, 3]
+result = [str1 + str(num) for str1, num in zip(list1, list2)]
+print(result)
+
+Q.Write a Python program to multiply all the items in a list.
+def multiply_list(my_list):
+    result = 1
+    for number in my_list:
+        result *= number
+    return result
+
+my_list = [1, 2, 3, 4, 5]
+print(multiply_list(my_list))
+
+Q.Write a Python program to get the smallest number from a list.
+my_list = [2, 4, 1, 3, 5]
+smallest_number = min(my_list)
+print(smallest_number)
+###################################################################################################################################################################################################################
+Q. 1. Given a dictionary of students and their favourite colours: 
+people={'Arham':'Blue','Lisa':'Yellow',''Vinod:'Purple','Jenny':'Pink'} 
+1. Find out how many students are in the list 
+2. Change Lisa’s favourite colour 
+3. Remove 'Jenny' and her favourite colour
+4. Sort and print students and their favourite colours alphabetically by name
+Write a function translate() that will translate a text into "rövarspråket" (Swedish for "robber's 
+language"). That is, double every consonant and place an occurrence of "o" in between. For 
+example, translate("this is fun") should return the string "tothohisos isos fofunon".
+
+
+1.
+people = {'Arham': 'Blue', 'Lisa': 'Yellow', 'Vinod': 'Purple', 'Jenny': 'Pink'}
+number_of_students = len(people)
+print(number_of_students)
+ 2.
+people = {'Arham': 'Blue', 'Lisa': 'Yellow', 'Vinod': 'Purple', 'Jenny': 'Pink'}
+people['Lisa'] = 'Green'
+print(people)
+3.
+people = {'Arham': 'Blue', 'Lisa': 'Yellow', 'Vinod': 'Purple', 'Jenny': 'Pink'}
+del people['Jenny']
+print(people)
+4.
+people = {'Arham': 'Blue', 'Lisa': 'Yellow', 'Vinod': 'Purple', 'Jenny': 'Pink'}
+sorted_people = sorted(people.items())
+for student, color in sorted_people:
+    print(student + ': ' + color)
+5.
+def translate(text):
+    consonants = 'bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ'
+    result = ''
+    for letter in text:
+        if letter in consonants:
+            result += letter + 'o' + letter
+        else:
+            result += letter
+    return result
+
+text = 'this is fun'
+translated_text = translate(text)
+print(translated_text)
+
+###################################################################################################################################################################################################################
+Q. 2. Write a program that contains a function that has one parameter, n, representing an integer 
+greater than 0. The function should return n! (n factorial). Then write a main function that calls this function with the values 1 through 20, one at a time, printing the returned results. This is what your 
+output should look like:
+1 1
+2 2 
+3 6
+4 24
+5 120
+6 720
+7 5040 
+8 40320 
+9 362880
+10 3628800
+
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)
+
+def main():
+    for i in range(1, 21):
+        print(i, factorial(i))
+
+if __name__ == '__main__':
+    main()
+
+###################################################################################################################################################################################################################
+Q. 2. We can define sum from 1 to x (i.e. 1 + 2 + ... + x) recursively as follows for integer x ≥ 1: 
+1, if x = 1 
+x + sum from 1 to x-1 if x > 1 
+Complete the following Python program to compute the sum 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 
+recursively:
+def main():
+# compute and print 1 + 2 + ... + 10 
+print sum(10) 
+def sum(x): 
+# you complete this function recursively main()
+
+
+def main():
+    # compute and print 1 + 2 + ... + 10
+    print(sum(10))
+
+def sum(x):
+    if x == 1:
+        return 1
+    else:
+        return x + sum(x-1)
+
+if __name__ == '__main__':
+    main()
+###################################################################################################################################################################################################################
+Q. 3. Define a function overlapping() that takes two lists and returns True if they have at least one 
+member in common, False otherwise.
+
+def overlapping(list1, list2):
+    for elem in list1:
+        if elem in list2:
+            return True
+    return False
+
+###################################################################################################################################################################################################################
+Q. 4. Write a function find_longest_word() that takes a list of words and returns the length of the 
+longest one
+
+def find_longest_word(words):
+    max_length = 0
+    for word in words:
+        if len(word) > max_length:
+            max_length = len(word)
+    return max_length
+
+###################################################################################################################################################################################################################
+Q. 5. Write a function filter_long_words() that takes a list of words and an integer n and returns the 
+list of words that are longer than n
+
+def filter_long_words(words, n):
+
+    return [word for word in words if len(word) > n]
+
+words = ["apple", "banana", "orange", "kiwi", "mango"]
+long_words = filter_long_words(words, 5)
+print(long_words)  
+
+###################################################################################################################################################################################################################
+Q. 6. Define a simple "spelling correction" function correct() that takes a string and sees to it that 
+1) two or more occurrences of the space character is compressed into one, and
+2) inserts an extra space after a period if the period is directly followed by a letter. 
+e.g. correct("This is very funny and cool.Indeed!") should return "This is very funny and cool. 
+Indeed!"
+
+def correct(string):
+    """
+    This function corrects a given string as per the specifications mentioned in the prompt.
+    """
+    # remove extra spaces
+    string = ' '.join(string.split())
+    
+    # insert space after period followed by a letter
+    new_string = ""
+    for i in range(len(string)):
+        new_string += string[i]
+        if string[i] == '.' and i+1 < len(string) and string[i+1].isalpha():
+            new_string += ' '
+    
+    return new_string
+
+###################################################################################################################################################################################################################
+Q. 7. In English, present participle is formed by adding suffix -ing to infinite form: go -> going. A 
+simple set of heuristic rules can be given as follows:
+ If the verb ends in e, drop the e and add ing (if not exception: be, see, flee, knee, etc.)
+ If the verb ends in ie, change ie to y and add ing
+ For words consisting of consonant-vowel-consonant, double the final letter before adding 
+ing
+ By default just add ing
+Your task in this exercise is to define a function make_ing_form() which given a verb in infinitive 
+form returns its present participle form. Test your function with words such as lie, see, move and 
+hug. However, you must not expect such simple rules to work for all cases.
+
+
+
+def make_ing_form(verb):
+    if verb.endswith('ie'):
+        return verb[:-2] + 'ying'
+    elif verb.endswith('e') and verb not in ['be', 'see', 'flee', 'knee']:
+        return verb[:-1] + 'ing'
+    elif len(verb) >= 3 and all(c not in 'aeiou' for c in verb[-3:-2] + verb[-1:]) and verb[-2:-1] in 'aeiou':
+        return verb + verb[-1] + 'ing'
+    else:
+        return verb + 'ing'
+
+print(make_ing_form('lie'))    # should print "lying"
+print(make_ing_form('see'))    # should print "seeing"
+print(make_ing_form('move'))   # should print "moving"
+print(make_ing_form('hug'))    # should print "hugging"
+print(make_ing_form('be'))     # should print "being"
+
+
+
+###################################################################################################################################################################################################################
+o Create a tuple, print that tuple. 
+
+# create a tuple
+my_tuple = (1, 2, 3, 4, 5)
+
+# print the tuple
+print("Tuple:", my_tuple)
+
+
+
+o Use for/while loop while running the programme. 
+
+
+# use a for loop to iterate over the elements of the tuple
+for elem in my_tuple:
+    print(elem)
+
+# use a while loop to iterate over the elements of the tuple
+i = 0
+while i < len(my_tuple):
+    print(my_tuple[i])
+    i += 1
+
+
+o Insert/delete an item in tuple
+
+# insert an item in the tuple
+my_tuple = my_tuple[:2] + (10,) + my_tuple[2:]
+
+# delete an item from the tuple
+my_tuple = my_tuple[:3] + my_tuple[4:]
+
+# print the modified tuple
+print("Modified tuple:", my_tuple)
+###################################################################################################################################################################################################################
+###############################################################################o To read or write a file using python. ###############################################################################
+
+# Open the file in read mode
+file = open("example.txt", "r")
+
+# Read the entire file and store it in a variable
+content = file.read()
+
+# Close the file
+file.close()
+
+# Print the file contents
+print(content)
+
+###############################################################################o Print everything written in a file.###############################################################################
+
+# Open the file in read mode
+file = open("example.txt", "r")
+
+# Initialize a count variable
+count = 0
+
+# Iterate over each line in the file
+for line in file:
+    # Increment the count variable
+    count += 1
+
+# Close the file
+file.close()
+
+# Print the number of lines in the file
+print("Number of lines:", count)
+
+###############################################################################o Count, how many lines are there in a file?###############################################################################
+
+# Open the file in read mode
+file = open("example.txt", "r")
+
+# Read the entire file and store it in a variable
+content = file.read()
+
+# Close the file
+file.close()
+
+# Split the file contents into words
+words = content.split()
+
+# Count the number of words
+count = len(words)
+
+# Print the number of words
+print("Number of words:", count)
+
+###############################################################################o Count, how many words are there in a file###############################################################################
+# Open the file in read mode
+file = open("example.txt", "r")
+
+# Read the entire file and store it in a variable
+content = file.read()
+
+# Close the file
+file.close()
+
+# Split the file contents into words
+words = content.split()
+
+# Count the number of words
+count = len(words)
+
+# Print the number of words
+print("Number of words:", count)
+
+###############################################################################o To read a web page content ###############################################################################
+import requests
+
+# Make a request to the web page
+response = requests.get("http://www.example.com")
+
+# Get the content of the response
+content = response.content
+
+# Print the content
+print(content)
+
+###################################################################################################################################################################################################################
+
+o Use regular expression to take a regular expression and search any pattern. 
+o Do all of these with the help of regular expression. 
+o Match a single character except newline. 
+o Match a word. 
+o Match a Decimal word. 
+o Match a single whitespace character. 
+o Match any Non-whitespace character.
+
+
+import re
+
+# sample text to search for patterns
+text = "The quick brown fox jumps over the lazy dog. 123.456"
+
+# match a single character except newline
+pattern1 = r"."
+match1 = re.search(pattern1, text)
+print("Match 1:", match1.group())  # should print any single character in the text
+
+# match a word
+pattern2 = r"\w+"
+match2 = re.search(pattern2, text)
+print("Match 2:", match2.group())  # should print the first word in the text
+
+# match a Decimal word
+pattern3 = r"\d+\.\d+"
+match3 = re.search(pattern3, text)
+print("Match 3:", match3.group())  # should print the decimal number in the text
+
+# match a single whitespace character
+pattern4 = r"\s"
+match4 = re.search(pattern4, text)
+print("Match 4:", repr(match4.group()))  # should print the first whitespace character in the text
+
+# match any Non-whitespace character
+pattern5 = r"\S"
+match5 = re.search(pattern5, text)
+print("Match 5:", match5.group())  # should print the first non-whitespace character in the text
+
+###################################################################################################################################################################################################################
+###################################################################################################################################################################################################################
+###################################################################################################################################################################################################################
+###################################################################################################################################################################################################################
+###################################################################################################################################################################################################################
+
+###################################################################################################################################################################################################################
